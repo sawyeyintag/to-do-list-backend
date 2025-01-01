@@ -1,4 +1,5 @@
 import { Request, Response } from "express";
+import mongoose from "mongoose";
 import ToDo from "../models/ToDo";
 
 export const ToDoController = {
@@ -10,13 +11,19 @@ export const ToDoController = {
       res.status(404).send({ message: error.message });
     }
   },
-  getToDoById: async (req: Request, res: Response) => {
-    const id = req.params.id;
+  getToDoById: async (req: Request, res: Response): Promise<any> => {
     try {
+      const id = req.params.id;
+      if (!mongoose.Types.ObjectId.isValid(id)) {
+        return res.status(400).send({ message: "Not a valid id" });
+      }
       const toDo = await ToDo.findById(id);
+      if (!toDo) {
+        return res.status(404).send({ message: "ToDo not found" });
+      }
       res.send(toDo);
     } catch (error: any) {
-      res.status(404).send({ message: error.message });
+      res.status(500).send({ message: "Internal Server Error" });
     }
   },
   createToDo: async (req: Request, res: Response) => {
