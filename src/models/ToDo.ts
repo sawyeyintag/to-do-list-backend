@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { IToDo } from "../types/ToDo";
 
 const Schema = mongoose.Schema;
 
@@ -20,4 +21,4 @@ const ToDoSchema = new Schema(
   { timestamps: true }
 );
 
-export default mongoose.model("ToDo", ToDoSchema);
+export default mongoose.model<IToDo>("ToDo", ToDoSchema);
