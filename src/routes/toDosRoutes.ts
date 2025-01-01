@@ -12,7 +12,7 @@ toDoRoutes.post(
   [
     body("title").notEmpty(),
     body("description").notEmpty(),
-    body("completed").notEmpty(),
+    body("completed").notEmpty().isBoolean(),
   ],
   handleToDoErrorMessage,
   ToDoController.createToDo
